@@ -1,0 +1,5 @@
+# Author   : Gaston Gonzalez
+# Date     : 31 May 2025
+# Purpose  : Empty udev rule to prevent the BRLTTY subsystem from
+#            invoking /lib/udev/rules.d/85-brltty.rules. These rules
+#            hijacking many USB devices used by ETC.

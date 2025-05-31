@@ -1,0 +1,20 @@
+{
+  "id": "yaesu-ftx1",
+  "vendor": "Yaesu",
+  "model": "FTX-1 (No CAT)",
+  "rigctrl": {
+    "id": "1",
+    "baud": "38400",
+    "ptt": "RTS",
+    "pttOnly": "true"
+  },
+  "notes": [
+    "Tune radio to desired frequency.",
+    "Long press [MODE] and set desired mode.",
+    "Use 'DATA-U' for most HF operation",
+    "Use 'TODO' for FM packet operation",
+    "Under MODE, long press 'PRESET' and select FT8"
+  ],
+  "fieldNotes": [
+  ]
+}
