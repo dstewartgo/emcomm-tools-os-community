@@ -12,7 +12,6 @@
 # 1. dump1099 systemd service is launched
 # 2. Web browser is launched with dump1090 map
 
-# TODO: Check for running service instead of using sleep before Min
 # TODO: Use icon and add to launcher
 # TODO: Increse size of aircraft
 # TODO: Research why RTL-SDR v4 does not work
@@ -21,9 +20,13 @@
 
 source /opt/emcomm-tools/bin/et-common
 
+CLEAN_UP=1
+
 cleanup() {
-  et-log "Stopping dump1099 service"
-  systemctl --user stop et-service-dump1090
+  if [[ ${CLEAN_UP} -eq 1 ]]; then
+    et-log "Stopping dump1099 service"
+    systemctl --user stop et-service-dump1090
+  fi
 }
 
 # Stop dump1099 on exit
@@ -31,11 +34,12 @@ trap cleanup EXIT
 
 if [[ ! -e ${ET_DEVICE_SDR} ]]; then
   notify-user "No ${ET_DEVICE_SDR} detected. Reconnect your SDR."
+  CLEAN_UP=0
   exit 1
 fi
 
 systemctl --user restart et-service-dump1090
 if [[ $? -eq 0 ]]; then
-  sleep 10
+  start_and_wait_for_service et-service-dump1090
   min http://localhost:1090 2>/dev/null
 fi

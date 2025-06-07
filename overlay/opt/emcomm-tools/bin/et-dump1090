@@ -16,7 +16,7 @@ source /opt/emcomm-tools/bin/et-common
 DUMP1090_CONF_DIR="${HOME}/.local/share/emcomm-tools/dump1090"
 DUMP1090_MAP_HTML="${DUMP1090_CONF_DIR}/gmap.html"
 
-exit-if-no-sdr
+exit_if_no_sdr
 
 if [[ ! -e ${DUMP1090_MAP_HTML} ]]; then
   et-log "Map HTML not found: ${DUMP1090_MAP_HTML}"

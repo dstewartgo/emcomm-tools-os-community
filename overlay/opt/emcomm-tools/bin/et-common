@@ -29,9 +29,48 @@ notify-user() {
   notify-send -t 5000 --app-name="EmComm Tools" "$1"
 }
 
-exit-if-no-sdr() {
+exit_if_no_sdr() {
   if [[ ! -e ${ET_DEVICE_SDR} ]]; then
     et-log "No ${ET_DEVICE_SDR} detected."
     exit 1
   fi
 }
+
+exit_on_service_failure() {
+  local systemd_unit_name="$1"
+  systemctl is-active --user --quiet "${systemd_unit_name}"
+  if [ $? -ne 0 ]; then
+    et-log "Can't start mode. ${systemd_unit_name} failed to start."
+    exit 1
+  fi
+}
+
+start_and_wait_for_service() {
+  local timeout=15  # Total time to wait in seconds
+  local interval=2  # Interval between checks in seconds
+  local systemd_unit_name="$1"
+  local elapsed=0
+
+  et-log "Starting ${systemd_unit_name}..."
+  systemctl --user start ${systemd_unit_name}
+
+  et-log "Waiting for ${systemd_unit_name} to become active..."
+
+  while ! systemctl is-active --user --quiet "${systemd_unit_name}"; do
+      sleep "$interval"
+      elapsed=$((elapsed + interval))
+      if [ "$elapsed" -ge "$timeout" ]; then
+          et-log "Timeout reached. ${systemd_unit_name} failed to start."
+          exit 1
+      fi
+      et-log "Waiting for ${systemd_unit_name} to become active..."
+  done
+
+  # Some applications even when started still need a bit of extra time to be available.
+  # Add a short think time of 2 seconds. The ARDOP modem requies extra time.
+  sleep 2
+
+  # Do one more check to ensure that we are running, otherwise exit.
+  exit_on_service_failure ${systemd_unit_name}
+}
+
