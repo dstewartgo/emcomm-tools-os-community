@@ -4,6 +4,7 @@
 # Date    : 23 May 2023
 # Updated : 17 August 2025
 # Purpose : Offline HF prediction using voacapl
+set -o pipefail
 source /opt/emcomm-tools/bin/et-common
 
 lookup_station() {
@@ -22,7 +23,7 @@ lookup_station() {
     grid)
       curl -f -s "http://localhost:1981/api/geo/grid?gridSquare=${value}"  | jq '{lat: .position.lat, lon: .position.lon}' > "$json_file"
       if [[ $? -ne 0 ]]; then
-        echo "Error converting grid to lat/lon: ${value}. Exiting."
+        echo "Error converting grid to lat/lon using value: ${value}. Exiting."
         exit 1
       fi
       ;;
@@ -125,8 +126,8 @@ MONTH_FMT=$(date +'%-m.00')
 # TX Antenna
 #######################################################################
 
-read TL TK < <(lookup_station "$tx_type" "$tx_value" tx-station.json)
-echo "TX Lat/Lon: $TL,$TK"
+result=$(lookup_station "$tx_type" "$tx_value" tx-station.json)
+read TL TK <<< "$result"
 
 TL1=$( awk -v n1=$TL -v n2=90 -v n3=-90 'BEGIN {if (n1<n3 || n1>n2) printf ("%s", "a"); else printf ("%.2f", n1);}' )
 
@@ -143,8 +144,8 @@ TLO=$( awk -v n1=$TK1 -v n2=0 'BEGIN {if (n1<n2) { n1=substr(n1,2); printf ("%7s
 # RX Antenna
 #######################################################################
 
-read RL RK < <(lookup_station "$rx_type" "$rx_value" rx-station.json)
-echo "RX Lat/Lon: $RL,$RK"
+result=$(lookup_station "$rx_type" "$rx_value" rx-station.json)
+read RL RK <<< "$result"
 
 RL1=$( awk -v n1=$RL -v n2=90 -v n3=-90 'BEGIN {if (n1<n3 || n1>n2) printf ("%s", "a"); else printf ("%.2f", n1);}' )
 
