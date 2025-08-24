@@ -55,6 +55,32 @@ lookup_station() {
   echo "$lat $lon"
 }
 
+validate_latitude() {
+  local lat="$1"
+
+  if [[ -z "$lat" ]]; then
+    echo -e "${RED}Latitude can't be an empty value${NC}" >&2
+    return 1
+  fi
+
+  if ! [[ "$lat" =~ ^-?[0-9]+([.][0-9]+)?$ ]]; then
+    echo -e "${RED}Latitude must be a number${NC}" >&2
+    return 1
+  fi
+
+  local latf
+  latf=$(printf "%.10f" "$lat" 2>/dev/null) || {
+    echo -e "${RED}Error converting latitude${NC}" >&2
+    return 1
+  }
+
+  # Check range: -90 <= lat <= 90
+  if (( $(echo "$latf < -90" | bc -l) )) || (( $(echo "$latf > 90" | bc -l) )); then
+    echo -e "${RED}Latitude must be in range between -90 and 90 degrees${NC}" >&2
+    return 1
+  fi
+}
+
 ET_SSN="${HOME}/.local/share/emcomm-tools/voacap/ssn.txt"
 if [[ ! -e ${ET_SSN} ]]; then
   echo -e "${RED}Sunspot number file not available:${WHITE}${ET_SSN}${NC}"
@@ -162,6 +188,8 @@ if ! result=$(lookup_station "$tx_type" "$tx_value" tx-station.json); then
 fi
 read TL TK <<< "$result"
 
+validate_latitude "$TL" || exit 1
+
 TL1=$( awk -v n1=$TL -v n2=90 -v n3=-90 'BEGIN {if (n1<n3 || n1>n2) printf ("%s", "a"); else printf ("%.2f", n1);}' )
 
 # add North or South (N/S)
@@ -186,6 +214,8 @@ if ! result=$(lookup_station "$rx_type" "$rx_value" rx-station.json); then
   exit 1
 fi
 read RL RK <<< "$result"
+
+validate_latitude "$RL" || exit 1
 
 RL1=$( awk -v n1=$RL -v n2=90 -v n3=-90 'BEGIN {if (n1<n3 || n1>n2) printf ("%s", "a"); else printf ("%.2f", n1);}' )
 
