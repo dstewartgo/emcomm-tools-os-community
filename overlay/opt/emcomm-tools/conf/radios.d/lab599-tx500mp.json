@@ -13,7 +13,12 @@
     "2. Set MODE = DIGI",
     "3. Plug-in CAT cable",
     "4. Plug-in DigiRig Lite",
-    " * Do not enable VOX on radio"
+    "5. Run 'alsamixer' command",
+    "   a. Press [F5]",
+    "   b. Press [F6] and select USB Audio Device",
+    "   c. Set speaker to 97% with up/down arrow keys",
+    "",
+    "Do not enable VOX on radio"
 
   ],
   "fieldNotes": [
