@@ -1,0 +1,21 @@
+{
+  "id": "lab599-tx500mp",
+  "vendor": "Lab599",
+  "model": "TX-500MP (DigiRig Lite)",
+  "rigctrl": {
+    "id": "2014",
+    "baud": "9600",
+    "ptt": "NONE",
+    "pttOnly": "false"
+  },
+  "notes": [
+    "1. Set MENU 36 CAT PROTOCOL = TS2000",
+    "2. Set MODE = DIGI",
+    "3. Plug-in CAT cable",
+    "4. Plug-in DigiRig Lite",
+    " * Do not enable VOX on radio"
+
+  ],
+  "fieldNotes": [
+  ]
+}
