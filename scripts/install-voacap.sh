@@ -1,8 +1,8 @@
 #!/bin/bash
 # Author  : Gaston Gonzalez
 # Date    : 5 June 2023
-# Updated : 16 August 2025
-# Purpose : Install Dire Wolf
+# Updated : 3 September 2025
+# Purpose : Install voacap
 #
 # References:
 # 1. https://github.com/jawatson/voacapl
