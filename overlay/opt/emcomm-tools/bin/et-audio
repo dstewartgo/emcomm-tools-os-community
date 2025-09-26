@@ -2,14 +2,14 @@
 #
 # Author  : Gaston Gonzalez
 # Date    : 31 October 2024
-# Updated : 13 September 2025
+# Updated : 26 September 2025
 # Purpose : Configures ET audio device with sane defaults
 #
 # Preconditions
 # 1. Supported audio interface is connected and properly detected
 #
 # Postconditions
-# 1. ASLA settings set on ET audio device
+# 1. ALSA settings set on ET audio device
 
 usage() {
   echo "usage: $(basename $0) <command>"
@@ -97,6 +97,19 @@ update-config () {
 
            et-log "Applied amixer settings for ${ET_DEVICE_NAME}"
          ;;
+         "FX-4CR")
+           # Unmute the PCM and set the volume to 21% to get the full output power. This value is
+           # dependent on the settings defined for the FX-4CR in the et-radio notes. 
+	   amixer -q -c ${AUDIO_CARD} sset 'PCM' 31% unmute
+
+           # Set "L/R Capture" to 55%. Adjust if you can't decode received audio.
+	   amixer -q -c ${AUDIO_CARD} sset 'Mic' 67% unmute
+
+           # Disable Auto Gain Control
+           amixer -q -c ${AUDIO_CARD} sset 'Auto Gain Control' mute
+
+           et-log "Applied amixer settings for ${ET_DEVICE_NAME}"
+	   ;;
          *)
            et-log "No ALSA configuration specified for this ET_DEVICE."
          ;;
