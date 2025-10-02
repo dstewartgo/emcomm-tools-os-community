@@ -38,11 +38,11 @@ RSID minimum search bandwidth in Hertz -->
 
 <!-- type: bool; default: false
 Enable Reed Soloman ID decoding -->
-<RECEIVERSID>0</RECEIVERSID>
+<RECEIVERSID>1</RECEIVERSID>
 
 <!-- type: bool; default: false
 Send RSID at beginning and end of transmission -->
-<TRANSMITRSID>0</TRANSMITRSID>
+<TRANSMITRSID>1</TRANSMITRSID>
 
 <!-- type: bool; default: true
 Append marker (for the previous modem and frequency) to the RX text
