@@ -9,7 +9,8 @@
 CMD=et-portaudio
 PORT_AUDIO_CONF=conf.tmp
 GEO_CONF=geo.tmp
-FLDIGI_CONF_FILE="${HOME}/.fldigi/fldigi_def.xml"
+FLDIGI_CONF_DIR="${HOME}/.fldigi"
+FLDIGI_CONF_FILE="${FLDIGI_CONF_DIR}/fldigi_def.xml"
 
 [ -z "$ET_USER_CONFIG" ] && ET_USER_CONFIG="${HOME}/.config/emcomm-tools/user.json"
 
@@ -36,13 +37,20 @@ if [[ $? -ne 0 ]]; then
   exit 1
 fi
 
+################################
+# Bootstrap fldigi configuration
+################################
+et-log "Checking for .fldigi directory"
+[[ ! -e ${FLDIGI_CONF_DIR} ]] && mkdir -v ${FLDIGI_CONF_DIR}
+
 et-log "Copying fldigi template..."
 cp -v ../../overlay/etc/skel/.fldigi/fldigi_def.xml ~/.fldigi/
+
 
 ##############################################
 # Map ALSA ET_AUDIO device to PortAudio device
 ##############################################
-et-log "Updating PortAudio devices..."
+et-log "Updating PortAudio device configuration..."
 
 sed -i "s|^<AUDIOIO>.*|<AUDIOIO>1</AUDIOIO>|" ${FLDIGI_CONF_FILE}
 
@@ -58,7 +66,7 @@ et-log "Using device '${DEVICE}' and device index '${INDEX}' for PortAudio confi
 #################
 # Update callsign
 #################
-et-log "Updating callsign..."
+et-log "Updating callsign configuration..."
 CALLSIGN=$(jq -r -e '.callsign' ${ET_USER_CONFIG})
 
 if [[ "${CALLSIGN}" = "N0CALL" ]]; then
@@ -85,3 +93,13 @@ if [[ $? -eq 0 ]]; then
 fi
 
 [[ -e ${GEO_CONF} ]] && rm ${GEO_CONF}
+
+
+#####################################################################
+# Configure CAT interface using Hamlib's rig control daemon (rigctld)
+#####################################################################
+et-log "Updating CAT control configuration..."
+
+sed -i "s|^<CHKUSEHAMLIBIS>.*|<CHKUSEHAMLIBIS>1</CHKUSEHAMLIBIS>|" ${FLDIGI_CONF_FILE}
+sed -i "s|^<HAMRIGMODEL>.*|<HAMRIGMODEL>2</HAMRIGMODEL>|" ${FLDIGI_CONF_FILE}
+sed -i "s|^<HAMLIBCMDPTT>.*|<HAMLIBCMDPTT>1</HAMLIBCMDPTT>|" ${FLDIGI_CONF_FILE}

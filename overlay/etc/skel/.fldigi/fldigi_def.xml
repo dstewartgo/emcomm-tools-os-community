@@ -1781,7 +1781,7 @@ Generate PTT signal on right audio channel -->
 
 <!-- type: int; default: 0
 Use Hamlib rig control -->
-<CHKUSEHAMLIBIS>0</CHKUSEHAMLIBIS>
+<CHKUSEHAMLIBIS>1</CHKUSEHAMLIBIS>
 
 <!-- type: int; default: 0
 Use RigCAT rig control -->
@@ -1805,7 +1805,7 @@ Hamlib rig name -->
 
 <!-- type: int; default: 0
 Hamlib rig model -->
-<HAMRIGMODEL>0</HAMRIGMODEL>
+<HAMRIGMODEL>2</HAMRIGMODEL>
 
 <!-- type: std::string; default: &quot;&quot;
 Hamlib configuration (param=val, ...) -->
@@ -1865,7 +1865,7 @@ Use separate device for PTT -->
 
 <!-- type: bool; default: false
 PTT via Hamlib command -->
-<HAMLIBCMDPTT>0</HAMLIBCMDPTT>
+<HAMLIBCMDPTT>1</HAMLIBCMDPTT>
 
 <!-- type: bool; default: false
 PTT via RigCAT command -->
