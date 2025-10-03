@@ -2,7 +2,7 @@
 #
 # Author  : Gaston Gonzalez
 # Date    : 16 March 2024
-# Updated : 16 August 2025
+# Updated : 2 October 2025
 # Purpose : Main installer for EmComm Tools Community (ETC)
 
 . ./env.sh
@@ -87,3 +87,9 @@ exitIfNotRoot
 
 # Install prediction tools
 ./install-voacap.sh
+
+# Install fldigi suite
+./install-fldigi.sh
+./install-et-portaudio.sh
+
+# TODO: add installers for flmsg and flamp
