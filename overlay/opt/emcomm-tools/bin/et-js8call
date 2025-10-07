@@ -55,7 +55,7 @@ update-config() {
 
     # Update configuration with current callsign and grid
     CALLSIGN=$(cat ${ET_USER_CONFIG} | jq -r .callsign)
-    GRID=$(cat ${ET_USER_CONFIG} | jq -r .grid)
+    GRID=$(et-system-info grid)
 
     if [ "${CALLSIGN}" = "N0CALL" ]; then
       notify_user "Can't start JS8Call. No callsign set. Run: et-user."
