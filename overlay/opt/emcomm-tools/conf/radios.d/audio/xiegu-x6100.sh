@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 # Author  : Gaston Gonzalez
-# Date    : 9 October 2025
-# Purpose : Audio settings specific to the Lab599 TX-500MP
+# Date    : 13 October 2025
+# Purpose : Audio settings specific to the Xiegu X6100
 #
 # Preconditions
 # 1. Supported audio interface is connected and properly detected
@@ -22,9 +22,9 @@ fi
 AUDIO_CARD=$1
 ET_DEVICE_NAME=$2
 
-# Unmute Speaker and set the volume to 81. Adjust if the remote station
+# Unmute Speaker and set the volume to 27. Adjust if the remote station
 # can't decode you or if there is no output power on TX.
-amixer -q -c ${AUDIO_CARD} sset Speaker Playback Switch 92% unmute
+amixer -q -c ${AUDIO_CARD} sset Speaker Playback Switch 42% unmute
 
 # Unmute Mic
 amixer -q -c ${AUDIO_CARD} sset Mic Playback Switch 52% unmute
