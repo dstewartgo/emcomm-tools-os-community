@@ -2,7 +2,7 @@
 #
 # Author  : Gaston Gonzalez
 # Date    : 6 October 2024
-# Updated : 9 October 2025
+# Updated : 14 October 2025
 # Purpose : Install EmComm Tools applications
 
 et-log "Installing EmComm Tools applications..."
@@ -20,7 +20,7 @@ chmod -v 664 $ET_HOME/conf/radios.d/*.json
 
 chgrp -v -R $ET_GROUP $ET_HOME/conf/radios.d/audio
 chmod -v 775 $ET_HOME/conf/radios.d/audio
-chmod -v 664 $ET_HOME/conf/radios.d/audio/*.sh
+chmod -v 775 $ET_HOME/conf/radios.d/audio/*.sh
 
 chgrp -v -R $ET_GROUP $ET_HOME/conf/template.d/packet
 chmod -v 775 $ET_HOME/conf/template.d/packet
